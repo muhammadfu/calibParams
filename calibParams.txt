@@ -1,0 +1,20 @@
+import cv2
+import numpy as np
+
+# Set the camera matrix and distortion coefficients for solvePnP in perspective transformation
+# as well as chessboard specifications and termination criteria as the extrinsic matrix for turret
+#is obtained from the chessboard. All of this was obtained from the calibration script.
+
+sqDim = 2.41
+criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
+reSize = (640, 480)
+
+objp = np.zeros((9*6, 3), np.float32)
+
+objp[:, :2] = np.mgrid[0:9, 0:6].T.reshape(-1, 2)*sqDim
+objp[:, [0, 1]] = objp[:, [1, 0]]
+
+coeffDist = np.array([[0.04507754, -0.51208818,  0.00296733, -0.00199631,  1.75470583]])
+cam_mtx = np.array([[805.5498838,       0.,          298.34096447],
+                    [  0.,            794.99315815,  252.40566649],
+                    [  0.,              0.,            1.        ]])
